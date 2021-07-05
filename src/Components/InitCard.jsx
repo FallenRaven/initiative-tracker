@@ -1,19 +1,21 @@
 import React from "react";
-import {Button, Card} from "react-bootstrap";
+import {Card} from "react-bootstrap";
+import {Draggable} from "react-beautiful-dnd";
 
 
-
-function InitCard(){
+function InitCard(props){
     return (
+            <Draggable draggableId={props.character.id} index={props.index}>
+                {(provided) => (
+                <Card style={{ width: '18rem' }} {...provided.draggableProps} {...provided.dragHandleProps} innerRef={provided.innerRef}>
 
-            <Card style={{ width: '18rem' }}>
-
-                <Card.Body>
-                    <Card.Title>Harrow</Card.Title>
-                    <Card.Text>Init: 16</Card.Text>
-                </Card.Body>
-            </Card>
-
+                    <Card.Body>
+                        <Card.Title>{props.name}</Card.Title>
+                        <Card.Text>Init: {props.init}</Card.Text>
+                    </Card.Body>
+                </Card>
+                )}
+            </Draggable>
     );
 
 

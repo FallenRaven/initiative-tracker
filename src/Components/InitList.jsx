@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import InitCard from "./InitCard";
-import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import {DragDropContext, Droppable} from "react-beautiful-dnd";
 
 
 
 
-function InitList(){
+function InitList(props){
 
     const [characters, updateCharacters] = useState();
 
@@ -22,13 +22,12 @@ function InitList(){
 
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="characters">
+            <Droppable droppableId={props.column.title}>
                 {(provided) => (
-                    <ul className="characters" {...provided.droppableProps} ref={provided.innerRef}>
-                        <InitCard></InitCard>
-                        <InitCard></InitCard>
-                        <InitCard></InitCard>
-                    </ul>
+                    <div  innerRef={provided.innerRef} {...provided.droppableProps} >
+                        {props.characters.map((character, index) => <InitCard key={character.id} character={character} index ={index} />)}
+                        {provided.placeholder}
+                    </div>
                 )}
 
             </Droppable>
