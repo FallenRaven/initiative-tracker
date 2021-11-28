@@ -1,33 +1,46 @@
 import React, { useState } from "react";
 import InitCard from "./InitCard";
-import {DragDropContext, Droppable} from "react-beautiful-dnd";
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import initialData from "../initial-data";
 
 
 
 
-function InitList(props){
+function InitList(){
 
-    const [characters, updateCharacters] = useState();
+    const [characterList, updateCharacterList] = useState(initialData.characters);
 
     function handleOnDragEnd(result){
         if (!result.destination) return;
 
-        const items = Array.from(characters);
+        const items = Array.from(characterList.characters);
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
 
-        updateCharacters(items);
+        updateCharacterList(items);
     }
 
 
     return (
         <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId={props.column.title}>
+            <Droppable droppableId="initList">
                 {(provided) => (
-                    <div  innerRef={provided.innerRef} {...provided.droppableProps} >
-                        {props.characters.map((character, index) => <InitCard key={character.id} character={character} index ={index} />)}
+
+                        <ul className="initList" innerRef={provided.innerRef} {...provided.droppableProps}>
+                        {characterList.map(({id, name, init}, index) => {
+                            return (
+                                <Draggable key={id} draggableId={id} index={index}>
+                                    {(provided) => (
+                                        <li ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                            <InitCard name={name} init={init}/>
+                                        </li>
+                                    )}
+                                </Draggable>
+                            ) ;
+                        })}
                         {provided.placeholder}
-                    </div>
+                        </ul>
+
                 )}
 
             </Droppable>
