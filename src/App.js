@@ -5,7 +5,7 @@ import initialData from "./initial-data";
 import {useState} from "react";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import InitCard from "./Components/InitCard";
-import {Button, Form, Navbar} from "react-bootstrap";
+import {Button, Col, Form, Navbar, Row} from "react-bootstrap";
 import {useFormik} from "formik";
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
             let tempJSON = JSON.parse(JSON.stringify(text));
             items.push(tempJSON);
             updateCharacters(items);
+            formik.resetForm();
         },
     });
 
@@ -67,13 +68,21 @@ function App() {
                     </Droppable>
                 </DragDropContext>
             <Form onSubmit={formik.handleSubmit}>
-                <Form.Group controlId="name">
-                    <Form.Label>Character Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter name" onChange={formik.handleChange} value={formik.values.name}/>
+                <Form.Group controlId="name" as={Row}>
+                    <Col xs={"auto"}>
+                        <Form.Label style={{color:'white'}}>Character Name</Form.Label>
+                    </Col>
+                    <Col xs={"auto"}>
+                        <Form.Control type="text" placeholder="Enter name" onChange={formik.handleChange} value={formik.values.name}/>
+                    </Col>
                 </Form.Group>
-                <Form.Group controlId="init">
-                    <Form.Label>Character Init</Form.Label>
-                    <Form.Control type="text" placeholder="Enter init" onChange={formik.handleChange} value={formik.values.init}/>
+                <Form.Group controlId="init" as={Row}>
+                    <Col xs={"auto"}>
+                        <Form.Label style={{color:'white'}}>Character Init</Form.Label>
+                    </Col>
+                    <Col xs={"auto"}>
+                        <Form.Control type="text" placeholder="Enter init" onChange={formik.handleChange} value={formik.values.init}/>
+                    </Col>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Submit
